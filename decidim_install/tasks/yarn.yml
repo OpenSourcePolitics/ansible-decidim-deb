@@ -1,0 +1,25 @@
+- name: Yarn | Ensure apt-transport-https is installed
+  apt:
+    name: apt-transport-https
+  become: true
+
+- name: Yarn | Add Yarn apt key
+  apt_key:
+    url: https://dl.yarnpkg.com/debian/pubkey.gpg
+  become: true
+
+- name: Yarn | Add Yarn repository
+  apt_repository:
+    repo: "deb https://dl.yarnpkg.com/debian/ stable main"
+    filename: yarn
+  become: true
+
+- name: Yarn | Install Yarn
+  apt:
+    name: yarn
+    state: latest
+  become: true
+
+- name: Yarn | Source .bashrc
+  shell: 
+    cmd: . {{ decidim_deployment_path }}/.bashrc

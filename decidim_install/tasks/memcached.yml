@@ -1,0 +1,13 @@
+- name: Memcached | Install packages
+  apt:
+    name: 
+      - memcached
+    state: latest
+  become: true
+
+- name: Memcached | Enable and start service
+  ansible.builtin.systemd:
+    name: memcached
+    state: started
+    enabled: yes
+  become: true

@@ -1,0 +1,58 @@
+- name: Passenger | Install dependencies
+  apt:
+    name:
+      - dirmngr
+      - gnupg
+      - apt-transport-https
+      - ca-certificates
+    state: latest
+  become: true
+
+- name: Passenger | Debian | add repository key
+  shell: curl https://oss-binaries.phusionpassenger.com/auto-software-signing-gpg-key.txt | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/phusion.gpg >/dev/null
+  become: true
+  # when: ansible_facts['distribution'] == 'Debian'
+
+- name: Passenger | Debian | add APT repository
+  apt_repository: repo='deb https://oss-binaries.phusionpassenger.com/apt/passenger {{ debian_distro }} main'
+  become: true
+  # when: ansible_facts['distribution'] == 'Debian'
+
+# - name: Passenger | Ubuntu | add repository key
+#   apt_key: keyserver=keyserver.ubuntu.com id=561F9B9CAC40B2F7
+#   become: true
+#   when: ansible_facts['distribution'] == 'Ubuntu'
+
+# - name: Passenger | Ubuntu | add APT repository
+#   apt_repository: repo='deb https://oss-binaries.phusionpassenger.com/apt/passenger {{ ubuntu_distro }} main'
+#   become: true
+#   when: ansible_facts['distribution'] == 'Ubuntu'
+
+- name: Passenger | Install Passenger
+  apt:
+    name: libnginx-mod-http-passenger
+    state: latest
+  become: true
+
+- name: Passenger | Create passenger_temp folder
+  ansible.builtin.file:
+    path: /usr/share/nginx/passenger_temp
+    owner: nginx
+    group: root
+    state: directory
+  become: true
+
+- name: Passenger | Set mod-http-passenger config
+  template:
+    src: templates/passenger.conf.j2
+    dest: "/etc/nginx/conf.d/passenger.conf"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0664"
+  become: true
+
+- name: Passenger | Restart Nginx
+  systemd:
+    state: restarted
+    name: nginx
+  become: true

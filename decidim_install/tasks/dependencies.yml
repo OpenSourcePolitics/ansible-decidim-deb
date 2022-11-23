@@ -1,0 +1,29 @@
+- name: Dependencies | Install Rbenv dependencies
+  apt:
+    update_cache: yes
+    name: 
+      - git
+      - curl
+      - libssl-dev
+      - libreadline-dev
+      - zlib1g-dev
+      - autoconf
+      - bison
+      - build-essential
+      - libyaml-dev
+      - libreadline-dev
+      - libncurses5-dev
+      - libffi-dev
+      - libgdbm-dev
+    state: latest
+  become: true
+
+- name: Dependencies | Install Decidim dependencies
+  apt:
+    name:
+      - libpq-dev
+      - libicu-dev
+      - libyaml-dev
+      - imagemagick
+    state: latest
+  become: true

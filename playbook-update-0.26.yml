@@ -1,0 +1,10 @@
+- hosts: all
+  gather_facts: false    
+
+  vars:
+    decidim_app_repository: "{{ git_root }}/{{ git_organization }}/{{ git_repository }}"
+    decidim_app_directory: "{{ decidim_deployment_path }}/{{ git_repository }}"
+    nodejs_version: "16"
+        
+  roles:
+    - decidim_update_0.26
