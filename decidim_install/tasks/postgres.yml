@@ -8,11 +8,11 @@
     state: present
   become: true
 
-- name: Postgres | Check if PostgreSQL is initialized
-  stat:
-    path: "{{ postgresql_data_dir }}/pg_hba.conf"
-  register: postgres_data
-  become: true
+# - name: Postgres | Check if PostgreSQL is initialized
+#   stat:
+#     path: "{{ postgresql_data_dir }}/pg_hba.conf"
+#   register: postgres_data
+#   become: true
 
 - name: Postgres | Start and enable service
   service:
@@ -61,7 +61,7 @@
   become: true
   become_user: postgres
 
-- name: "Postgres | Allow md5 connection for the db user"
+- name: "Postgres | Allow local connection for the db user"
   postgresql_pg_hba:
     dest: "{{ postgresql_data_dir }}/pg_hba.conf"
     contype: host
