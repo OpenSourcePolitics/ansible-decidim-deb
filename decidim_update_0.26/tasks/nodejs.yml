@@ -1,6 +1,6 @@
 - name: NodeJS | Download NodeJS
   shell:
-    cmd: "curl -sL https://rpm.nodesource.com/setup_{{ nodejs_version }}.x | bash -"
+    cmd: "curl -sL https://deb.nodesource.com/setup_{{ nodejs_version }}.x | bash -"
   become: true
 
 - name: NodeJS | Install NodeJS

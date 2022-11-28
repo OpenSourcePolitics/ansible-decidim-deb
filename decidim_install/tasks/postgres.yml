@@ -8,11 +8,11 @@
     state: present
   become: true
 
-# - name: Postgres | Check if PostgreSQL is initialized
-#   stat:
-#     path: "{{ postgresql_data_dir }}/pg_hba.conf"
-#   register: postgres_data
-#   become: true
+- name: Postgres | Check if PostgreSQL is initialized
+  stat:
+    path: "{{ postgresql_data_dir }}/pg_hba.conf"
+  register: postgres_data
+  become: true
 
 - name: Postgres | Start and enable service
   service:

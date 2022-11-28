@@ -1,5 +1,5 @@
 - name: Certbot | Install packages
-  dnf:
+  apt:
     name:
     - certbot
     - python3-certbot-nginx

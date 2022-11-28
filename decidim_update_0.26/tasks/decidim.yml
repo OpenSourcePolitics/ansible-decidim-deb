@@ -37,7 +37,7 @@
 
 - name: Decidim | Yarn install
   shell:
-    cmd: "yarn"
+    cmd: "yarn install --frozen-lockfile"
     chdir: "{{ decidim_app_directory }}"
 
 - name: Decidim | Run migrations

@@ -13,13 +13,30 @@
     enabled: yes
   become: true
 
-- name: Nginx | Set vhost config
+- name: Nginx | Create vhost sites
   template:
-    src: templates/nginx.j2
-    dest: "/etc/nginx/conf.d/decidim.conf"
+    src: templates/nginx-decidim.j2
+    dest: "/etc/nginx/sites-available/decidim"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: "0664"
+  become: true
+
+- name: Nginx | Check if default site is enabled
+  stat:
+    path: /etc/nginx/sites-enabled/default
+  register: niginx_sites_default
+  become: true
+
+- name: Nginx | Remove default sites
+  shell: 
+    cmd: sudo rm /etc/nginx/sites-enabled/default
+  become: true
+  when : niginx_sites_default.stat.exists
+
+- name: Nginx | Enabled vhost sites
+  shell: 
+    cmd: sudo ln -sfv /etc/nginx/sites-available/decidim /etc/nginx/sites-enabled/
   become: true
 
 - name: Nginx | Add execution permission to decidim user

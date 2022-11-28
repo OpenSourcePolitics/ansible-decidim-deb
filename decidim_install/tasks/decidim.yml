@@ -49,13 +49,14 @@
 
 - name: Decidim | Yarn install
   shell:
-    cmd: "yarn"
+    cmd: "yarn install --frozen-lockfile"
     chdir: "{{ decidim_app_directory }}"
 
 - name: Decidim | Database setup
   shell:
     cmd: "RAILS_ENV=production {{ decidim_deployment_path }}/.rbenv/shims/bundle exec rails db:schema:load"
     chdir: "{{ decidim_app_directory }}"
+  ignore_errors: true
 
 - name: Decidim | Run migrations
   shell:

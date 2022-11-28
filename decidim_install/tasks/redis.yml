@@ -1,12 +1,12 @@
 - name: Redis | Install redis
   apt:
-    name: redis
+    name: redis-server
     state: latest
   become: true
 
 - name: Redis | Set redis as a service
   lineinfile:
-    path: /etc/redis.conf
+    path: /etc/redis/redis.conf
     regexp: '^supervised no'
     line: supervised systemd
   become: true
